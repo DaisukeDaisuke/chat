@@ -84,7 +84,7 @@ class chat extends PluginBase implements Listener{
 					break;
 					case "login":
 					case "in":
-					case "l":
+					case "i":
 						if(!isset($args[1])){
 							$sender->sendMessage("/".$label." ".$args[0]." [グループ名] : §aチャットグループにログインします。");
 							return true;
@@ -111,15 +111,21 @@ class chat extends PluginBase implements Listener{
 							$sender->sendMessage("指定されたグループは存在しないため、ログアウトすることは出来ません。");
 							return true;
 						}
-						if(!$this->logingroup($sender->getName(),$groupname)){
-							$player->sendMessage("指定されたグループに参加していないため、ログアウトすることは出来ません。");
+						if(!$this->logoutgroup($sender->getName(),$groupname)){
+							$sender->sendMessage("指定されたグループに参加していないため、ログアウトすることは出来ません。");
 							return true;
 						}
-						$sender->sendMessage("チャットグループ「".$groupname."」にログインしました！");
+						$sender->sendMessage("チャットグループ「".$groupname."」からログアウトしました！");
 						$this->save();
 					break;
 					case "global":
 					case "g":
+						if($this->hasgroup($sender->getName(),self::GLOBAL_CHAT)){
+							if($this->gethasgroupcount($sender->getName()) < 2){
+								$sender->sendMessage("チャットグループに1つも参加していないため、グローバルチャットを操作することは出来ません。");
+								return true;
+							}
+						}
 						if(isset($args[1])){
 							switch(strtolower($args[1])){
 								case "on";
@@ -153,6 +159,14 @@ class chat extends PluginBase implements Listener{
 					break;
 					case "list":
 					case "l":
+						$sender->sendMessage("§a=====".$sender->getName()."様が参加しているグループチャット一覧=====");
+						$groups = $this->getAllbyPlayerName($sender->getName());
+						foreach($groups as $groupname => $bool){
+							if(!$this->isInvalid($groupname)){
+								$sender->sendMessage($groupname);
+							}
+						}
+
 						$sender->sendMessage("§a=====グループチャット一覧=====");
 						foreach($this->groups as $groupname => $array){
 							if(!$this->isInvalid($groupname)){
@@ -189,6 +203,20 @@ class chat extends PluginBase implements Listener{
 		unset($this->players[$player][$groupname]);
 		unset($this->groups[$groupname][$player]);
 		return true;
+	}
+	
+	public function gethasgroupcount(string $player): int{
+		if(!isset($this->players[$player])){
+			return 0;
+		}
+		return count($this->players[$player]);
+	}
+	
+	public function getAllbyPlayerName(string $player){
+		if(!isset($this->players[$player])){
+			return [];
+		}
+		return $this->players[$player];
 	}
 	
 	public function PlayerChat(PlayerChatEvent $event){
