@@ -207,11 +207,6 @@ class chat extends PluginBase implements Listener{
 			}
 		}else{
 			$recipients = [$sender];
-			/*foreach($players as $name => $player){
-				if(!isset($this->players[$name])||count($this->players[$name]) === 0){
-					$recipients[] = $player;
-				}
-			}*/
 		}
 		$event->setRecipients($recipients);
 	}
