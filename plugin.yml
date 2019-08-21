@@ -1,0 +1,10 @@
+name: chat
+main: chat\chat
+version: 3.0
+api:
+- 3.0.0
+load: POSTWORLD
+commands:
+ chat:
+  description: グループチャットの管理を行います。
+  usage: "/chat"
