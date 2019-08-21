@@ -212,7 +212,7 @@ class chat extends PluginBase implements Listener{
 		return count($this->players[$player]);
 	}
 	
-	public function getAllbyPlayerName(string $player){
+	public function getAllbyPlayerName(string $player): array{
 		if(!isset($this->players[$player])){
 			return [];
 		}
@@ -250,8 +250,6 @@ class chat extends PluginBase implements Listener{
 	public function isInvalid(string $groupname){
 		return $groupname === self::GLOBAL_CHAT;
 	}
-
-	//public function sendchat
 	
 	public function help(player $player,string $label){
 		if($player->isOP()){
