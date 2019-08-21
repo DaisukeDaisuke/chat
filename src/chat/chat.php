@@ -59,7 +59,7 @@ class chat extends PluginBase implements Listener{
 							return true;
 						}
 						$this->groups[$groupname] = [];
-						$sender->sendMessage("チャットグループを作成致しました。");
+						$sender->sendMessage("チャットグループ「".$groupname."」を作成致しました。");
 						$this->save();
 					break;
 					case "delete":
@@ -79,7 +79,7 @@ class chat extends PluginBase implements Listener{
 							unset($this->players[$name][$groupname]);
 						}
 						unset($this->groups[$groupname]);
-						$sender->sendMessage("チャットグループを削除致しました。");
+						$sender->sendMessage("チャットグループ「".$groupname."」を削除致しました。");
 						$this->save();
 					break;
 					case "login":
@@ -154,9 +154,9 @@ class chat extends PluginBase implements Listener{
 					case "list":
 					case "l":
 						$sender->sendMessage("§a=====グループチャット一覧=====");
-						foreach($this->groups as $groupmame => $array){
+						foreach($this->groups as $groupname => $array){
 							if(!$this->isInvalid($groupname)){
-								$sender->sendMessage($groupmame);
+								$sender->sendMessage($groupname);
 							}
 						}
 					break;
@@ -220,7 +220,7 @@ class chat extends PluginBase implements Listener{
 	}
 
 	public function isInvalid(string $groupname){
-		return $groupname == self::GLOBAL_CHAT;
+		return $groupname === self::GLOBAL_CHAT;
 	}
 
 	//public function sendchat
