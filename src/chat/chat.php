@@ -238,7 +238,7 @@ class chat extends PluginBase implements Listener{
 		$event->setRecipients($recipients);
 	}
 
-	public function getPlayers(){
+	public function getPlayers(): array{
 		$players = $this->getServer()->getOnlinePlayers();
 		$returnPlayers = [];
 		foreach($players as $id => $player){
@@ -247,7 +247,7 @@ class chat extends PluginBase implements Listener{
 		return $returnPlayers;
 	}
 
-	public function isInvalid(string $groupname){
+	public function isInvalid(string $groupname): bool{
 		return $groupname === self::GLOBAL_CHAT;
 	}
 	
